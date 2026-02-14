@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('tarefas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('titulo', 80);
+            $table->text('descricao')->nullable();
+            $table->enum('status', ['pendente', 'fazendo', 'finalizada']);
+            $table->timestamps(); #cria duas colunas: created_at e updated_at
         });
     }
 
