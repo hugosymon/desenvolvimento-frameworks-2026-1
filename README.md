@@ -45,3 +45,10 @@ Migre o banco:
 ```bash
 docker compose exec app php artisan migrate
 ```
+
+---
+
+Exemplo de criação de módulo (criando módulo `Tarefa`):
+```bash
+docker compose exec app php artisan make:model Tarefa -mcr
+```
