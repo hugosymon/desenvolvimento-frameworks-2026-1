@@ -12,7 +12,8 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        //
+        $tarefas = Tarefa::latest()->get();
+        return view('tarefas.index', compact('tarefas'));
     }
 
     /**
@@ -20,7 +21,7 @@ class TarefaController extends Controller
      */
     public function create()
     {
-        //
+        return view('tarefas.create');
     }
 
     /**
@@ -28,7 +29,15 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dados = $request->validate([
+            'titulo' => ['required', 'string', 'max:80'],
+            'descricao' => ['nullable', 'string'],
+            'status' => ['required', 'in:pendente,fazendo,finalizado'],
+        ]);
+
+        Tarefa::create($dados);
+
+        return redirect()->route('tarefas.index')->with('ok', 'Tarefa criada!');
     }
 
     /**
@@ -36,7 +45,7 @@ class TarefaController extends Controller
      */
     public function show(Tarefa $tarefa)
     {
-        //
+        return view('tarefas.show', compact('tarefa'));
     }
 
     /**
@@ -44,7 +53,7 @@ class TarefaController extends Controller
      */
     public function edit(Tarefa $tarefa)
     {
-        //
+        return view('tarefas.edit', compact('tarefa'));
     }
 
     /**
@@ -52,7 +61,15 @@ class TarefaController extends Controller
      */
     public function update(Request $request, Tarefa $tarefa)
     {
-        //
+        $dados = $request->validate([
+            'titulo' => ['required', 'string', 'max:80'],
+            'descricao' => ['nullable', 'string'],
+            'status' => ['required', 'in:pendente,fazendo,finalizada'],
+        ]);
+
+        $tarefa->update($dados);
+
+        return redirect()->route('tarefas.index')->with('ok', 'Tarefa atualizada!');
     }
 
     /**
@@ -60,6 +77,7 @@ class TarefaController extends Controller
      */
     public function destroy(Tarefa $tarefa)
     {
-        //
+        $tarefa->delete();
+        return redirect()->route('tarefas.index')->with('ok', 'Tarefa removida!');
     }
 }
